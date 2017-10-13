@@ -2,6 +2,7 @@ package com.wangchongyang.mapgames.map;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,7 +12,11 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import com.wangchongyang.mapgames.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -22,20 +27,23 @@ public class MapActivity extends AppCompatActivity {
                                     291, 290, 289};
     private int startCellIndex = 0;
     private int endCellIndex = 0;
+    private int mapSize = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        init();
+        setGridCell(20);
     }
 
-    private void init() {
+    private void setGridCell(int number) {
+        mapSize = number;
         GridLayout gridLayout = (GridLayout) findViewById(R.id.bg_gridlayout);
-        gridLayout.setColumnCount(20);
-        gridLayout.setRowCount(20);
+        gridLayout.removeAllViews();
+        gridLayout.setColumnCount(number);
+        gridLayout.setRowCount(number);
         int cellCount = 0;
         hashMap.clear();
-        while (cellCount < 400) {
+        while (cellCount < number * number) {
             hashMap.put(cellCount,Color.WHITE);
             ImageView imageView = (ImageView) getLayoutInflater().inflate(R.layout.textview_cell, gridLayout,false);
             imageView.setId(cellCount);
@@ -58,8 +66,8 @@ public class MapActivity extends AppCompatActivity {
         Random random = new Random();
 
         do{
-            endCellIndex = random.nextInt(400);
-            startCellIndex = random.nextInt(400);
+            endCellIndex = random.nextInt(mapSize*mapSize);
+            startCellIndex = random.nextInt(mapSize*mapSize);
             Log.d("Random :",startCellIndex + "," + endCellIndex);
             Log.d("hash color :",hashMap.get(startCellIndex) + "," + hashMap.get(endCellIndex));
 
@@ -107,5 +115,49 @@ public class MapActivity extends AppCompatActivity {
         }
         imageView.setImageDrawable(drawable);
         hashMap.put(index,type);
+    }
+
+}
+class FindWaysSolution {
+
+    int[][] map;
+    int[] barrierNumbs;
+
+    public FindWaysSolution(int mapSize) {
+
+        map = new int[mapSize][mapSize];
+        barrierNumbs = new int[0];
+        for(int[] a : map){
+              Arrays.fill(a,0);
+        }
+
+    }
+
+    public FindWaysSolution(int mapSize,int[] barrierNumbs) {
+
+        map = new int[mapSize][mapSize];
+        this.barrierNumbs = getRightBarrierNumbs(mapSize,barrierNumbs);
+        for(int[] a : map){
+            Arrays.fill(a,0);
+        }
+
+    }
+
+    public void findWays(int start,int end){
+        
+    }
+
+
+
+
+    private int[] getRightBarrierNumbs(final int mapSize, int[] barrierNumbs) {
+        List<Integer> list = new ArrayList<>();
+        for(int i : barrierNumbs){
+            if(i >=0 && i < mapSize * mapSize) list.add(i);
+        }
+        int[] ret = new int[list.size()];
+        for(int a = 0;a < ret.length;a++)
+            ret[a] = list.get(a);
+        return ret;
     }
 }
