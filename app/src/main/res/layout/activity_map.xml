@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="#111"
+        android:orientation="vertical"
+        >
+<GridLayout
+        android:id="@+id/bg_gridlayout"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:background="@drawable/table_shape_black"
+        tools:context="com.wangchongyang.myapplication.map.MapActivity">
+</GridLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+        <Button
+                android:text="开始"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setStartAndEnd"/>
+        <Button
+            android:text="障碍"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="setBarrier"/>
+        <Button
+                android:text="寻路"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setBarrier"/>
+    </LinearLayout>
+</LinearLayout>
